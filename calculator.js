@@ -85,18 +85,29 @@ var operations=[
     {stringval:"-", operation:substract, priority: 3}
 ]
 
-exports.ecuatie1 = function ecuatie1(n) {
+
+
+exports.ecuatie2 = function ecuatie2(n) {
+
+    operations = operations.sort(function(a, b){return b.priority - a.priority}); //??
+        var index_break_s = n.indexOf("(")
+        var index_break_e = n.indexOf(")")
+        if (index_break_s > -1) {
+            return ecuatie2(n.substring((index_break_s + 1), index_break_e))
+        }
+
 
     for (i=0; i<operations.length; i++) {
-        var index = n.indexOf( operations[i].stringval )
+        var index = n.indexOf( operations[i].stringval )  //The indexOf() method returns the position of the first occurrence of a specified value in a string
         if (index > -1) {
-            var left = n.substring(0, index)
+            var left = n.substring(0, index)  //This method extracts the characters in a string between "start" and "end", not including "end" itself.
             var right = n.substring(index + 1, n.length)
-            return operations[i].operation(ecuatie1(left), ecuatie1(right))
+            return operations[i].operation(ecuatie2(left), ecuatie2(right))
         }
     }
-    return parseInt(n)
+    return parseInt(n) //parses a string and returns an integer
 }
+
 
 exports.multiply = multiply
 exports.divide = divide
